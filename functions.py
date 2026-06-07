@@ -6,7 +6,7 @@ date = x.strftime("%Y/%m/%d")
 
 def menu():
         try:
-                     print(" ======== Gerenciador de Tarefas ======== \n")
+                     print("\n======== Gerenciador de Tarefas ======== \n")
                      print(
                      "1 - Adicionar tarefa\n" 
                      "2 - Listar tarefas\n"
@@ -91,27 +91,31 @@ def search_text_task(tarefas,text):
                      return new_tarefas
        except:
               print("nenhuma tarefa encontrada!")
-              return None
+              return []
        
 #DELETE
 def delete_task():
-       try:
-              id = int(input("Digite o id da terefa:\n"))
-              tarefas = read_task()
-              id_task = search_id_task(tarefas,id)
-              nova_tarefas = []
-              if id_task:
-                     for x in tarefas:
-                            if x["id"] != id_task["id"]:
-                                   nova_tarefas.append(x)
-        
-              print(f"Tarefa removida: {id_task}")
-              save_task(nova_tarefas)
-              return
+    try:
+        id = int(input("Digite o id da tarefa:\n"))
+        tarefas = read_task()
+        tarefa_selecionada = search_id_task(tarefas, id)
 
-       except:
-              print("tarefa não encontrada")
-              return 
+        if tarefa_selecionada:
+            nova_tarefas = [x for x in tarefas if x["id"] != tarefa_selecionada["id"]]
+            
+            # reordena
+            formato = sorted(nova_tarefas, key=lambda t: t['id'])
+            
+            # refaz os ids
+            for index, tarefa in enumerate(formato, start=1):
+                tarefa["id"] = index
+
+            print(f"Tarefa removida: {tarefa_selecionada}")
+            save_task(formato)
+        return
+
+    except ValueError:
+        print("Digite um id válido.")
 
 def mark_task():
        try:
@@ -136,10 +140,9 @@ def search_task():
               return
        except:
               print("termo não encontrado!")
+              return None
 
 
-
-                
         
         
                 

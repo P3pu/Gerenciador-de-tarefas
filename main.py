@@ -10,15 +10,19 @@ while game:
     match opt:
         case 1:
             add_task()
+            menu()
         case 2:
             list_task()
+            menu()
         case 3:
             mark_task()
-            print("Marcando como concluida")
+            menu()
         case 4:
             delete_task()
+            menu()
         case 5:
             search_task()
+            menu()
         case 6: 
             print("Saindo...")
             game = False
